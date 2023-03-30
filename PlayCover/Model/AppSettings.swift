@@ -29,6 +29,9 @@ struct AppSettingsData: Codable {
     var windowFixMethod = 0
     var injectIntrospection = false
 
+    var maaTools = false
+    var maaToolsPort = 1717
+
     init() {}
 
     // handle old 2.x settings where PlayChain did not exist yet
@@ -54,6 +57,9 @@ struct AppSettingsData: Codable {
         metalHUD = try container.decodeIfPresent(Bool.self, forKey: .metalHUD) ?? false
         windowFixMethod = try container.decodeIfPresent(Int.self, forKey: .windowFixMethod) ?? 0
         injectIntrospection = try container.decodeIfPresent(Bool.self, forKey: .injectIntrospection) ?? false
+
+        maaTools = try container.decodeIfPresent(Bool.self, forKey: .maaTools) ?? false
+        maaToolsPort = try container.decodeIfPresent(Int.self, forKey: .maaToolsPort) ?? 1717
     }
 }
 

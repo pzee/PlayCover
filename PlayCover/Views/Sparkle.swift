@@ -17,10 +17,13 @@ final class UpdaterViewModel: ObservableObject {
 
     var automaticallyCheckForUpdates: Bool {
         get {
-            updaterController.updater.automaticallyChecksForUpdates
+//            updaterController.updater.automaticallyChecksForUpdates
+            false
         }
         set(newValue) {
-            updaterController.updater.automaticallyChecksForUpdates = newValue
+//            updaterController.updater.automaticallyChecksForUpdates = newValue
+            _ = newValue
+            updaterController.updater.automaticallyChecksForUpdates = false
         }
     }
 
@@ -41,7 +44,7 @@ final class UpdaterViewModel: ObservableObject {
     }
 
     func checkForUpdates() {
-        updaterController.checkForUpdates(nil)
+//        updaterController.checkForUpdates(nil)
     }
 }
 

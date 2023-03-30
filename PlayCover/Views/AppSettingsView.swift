@@ -428,6 +428,21 @@ struct BypassesView: View {
                         .help("settings.toggle.introspection.help")
                     Spacer()
                 }
+                Spacer()
+                    .frame(height: 20)
+                HStack {
+                    Toggle("MaaTools", isOn: $settings.settings.maaTools)
+                    Spacer()
+                    Text("Port:")
+                    Stepper(value: $settings.settings.maaToolsPort, in: 1024 ... 65535) {
+                        TextField("MaaTools Port",
+                                  value: $settings.settings.maaToolsPort,
+                                  formatter: GraphicsView.number)
+                        .frame(width: 125)
+                    }
+                    .disabled(!settings.settings.maaTools)
+                    Spacer()
+                }
             }
             .padding()
         }
