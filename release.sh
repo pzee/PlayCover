@@ -1,6 +1,8 @@
 #!/bin/sh
 set -eu -o pipefail
 
+rm -rf build
+
 xcodebuild clean archive -scheme PlayCover -configuration Release -archivePath build/PlayCover.xcarchive
 
 APP_BUNDLE="build/PlayCover.xcarchive/Products/Applications/PlayCover.app"
