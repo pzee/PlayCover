@@ -1,13 +1,15 @@
 #!/bin/sh
 set -eu -o pipefail
 
+APP_BUNDLE="build/PlayCover.xcarchive/Products/Applications/PlayCover.app"
+TAG_NAME=$(git describe --tags --abbrev=0)
+
 rm -rf build
 
 ### Build PlayCover
 
 xcodebuild clean archive -scheme PlayCover -configuration Release -archivePath build/PlayCover.xcarchive
 
-APP_BUNDLE="build/PlayCover.xcarchive/Products/Applications/PlayCover.app"
 codesign -s "Developer ID Application: Hao Guan (29V29Y67P2)" -f -o runtime --deep --timestamp $APP_BUNDLE/Contents/Frameworks/PlayTools.framework/PlugIns/AKInterface.bundle
 codesign -s "Developer ID Application: Hao Guan (29V29Y67P2)" -f -o runtime --deep --timestamp $APP_BUNDLE/Contents/Frameworks/PlayTools.framework
 codesign -s "Developer ID Application: Hao Guan (29V29Y67P2)" -f -o runtime --deep --timestamp $APP_BUNDLE/Contents/Frameworks/Sparkle.framework
@@ -30,7 +32,6 @@ xcrun stapler staple build/PlayCover.dmg
 rm -rf update/updates
 mkdir -p update/updates
 
-TAG_NAME=$(git describe --tags --abbrev=0)
 mv build/PlayCover.dmg update/updates/PlayCover-$TAG_NAME.dmg
 gh release create $TAG_NAME update/updates/PlayCover-$TAG_NAME.dmg --title "$TAG_NAME" --generate-notes
 
@@ -38,9 +39,9 @@ gh release create $TAG_NAME update/updates/PlayCover-$TAG_NAME.dmg --title "$TAG
 
 cd update
 ./sparkle/bin/generate_appcast \
-    --download-url-prefix 'https://github.com/PlayCover/PlayCover/releases/download/$TAG_NAME/' \
-    --link 'https://github.com/PlayCover/PlayCover/releases/tag/$TAG_NAME' \
-    --full-release-notes-url 'https://github.com/PlayCover/PlayCover/releases/tag/$TAG_NAME' \
+    --download-url-prefix "https://github.com/hguandl/PlayCover/releases/download/$TAG_NAME/" \
+    --link "https://github.com/hguandl/PlayCover/releases/tag/$TAG_NAME" \
+    --full-release-notes-url "https://github.com/hguandl/PlayCover/releases/tag/$TAG_NAME" \
     -o appcast.xml ./updates
 git add appcast.xml
 git commit -S -m "Update appcast.xml"
